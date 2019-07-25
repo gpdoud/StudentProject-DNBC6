@@ -5,9 +5,8 @@ namespace StudentProject {
         static void Main(string[] args) {
 
             Student brailee = new Student();
-            brailee.SetStatus("current");
-            brailee.SetStatus("Current");
-            brailee.SetStatus("CURRENT");
+            Student jesse = new Student();
+            brailee.SetStatus(StudentStatus.Current);
             Console.WriteLine($"Brailee status is {brailee.Status}");
 
             //brailee.CreditScore = 2000;
@@ -32,7 +31,12 @@ namespace StudentProject {
             #endregion
         }
     }
+
+    enum StudentStatus { Past, Current, Future }
+
     class Student {
+        private static int nextId = 1;
+
         public int Id { get; set; } // primary key
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -41,7 +45,7 @@ namespace StudentProject {
         public string State { get; set; }
         public string Zip { get; set; }
         public string Bootcamp { get; set; }
-        public string Status { get; set; } // current, future, past
+        public StudentStatus Status { get; set; } // current, future, past
         public string Email { get; set; }
         public string Phone { get; set; }
         public bool IsPaid { get; set; } = false;
@@ -56,24 +60,20 @@ namespace StudentProject {
             }
         }
 
-        public void SetStatus(string status) {
-
-            if((status == "CURRENT") 
-                || (status == "PAST") 
-                || (status == "FUTURE")) {
-                this.Status = status;
-            } else {
-                Console.WriteLine("Status must be CURRENT, PAST, or FUTURE");
-            }
-            
+        public void SetStatus(StudentStatus status) {
+            this.Status = status;
         }
 
         public Student(string firstName, string lastName) {
+            this.Id = nextId;
+            nextId = nextId + 1;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Bootcamp = "Java";
         }
         public Student() {
+            this.Id = nextId;
+            nextId = nextId + 1;
             this.Bootcamp = ".Net";
         }
     }
